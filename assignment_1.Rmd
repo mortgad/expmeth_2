@@ -1,0 +1,70 @@
+---
+title: "assignment_1"
+author: "Morten Gade"
+date: "3/2/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r cars}
+# importing data and load packages
+
+sleepstudy <- read.csv("sleepstudy.csv")
+library(tidyverse)
+
+
+```
+
+## plot data
+
+```{r}
+
+ggplot(sleepstudy %>% group_by(Subject), aes(sleepstudy$Days, Reaction)) + 
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE)
+
+ggplot(sleepstudy, aes(sleepstudy$Reaction)) + 
+  geom_histogram()
+
+
+
+```
+
+
+## 1a
+
+```{r}
+
+subject_308 <- subset(sleepstudy, sleepstudy$Subject == 308)
+
+lm_1 <- lm(subject_308$Reaction ~ subject_308$Days)
+
+summary(lm_1)
+
+#plot(sleepstudy)
+
+```
+
+The F-statistic is 17.12. The associated p-value is below the threshold of 0.05 suggesting a rejection of the null hypothesis. 
+
+## 1b
+
+The F-distribution takes in two parameters. The first degree of freedom equals the number of predictors, 1 in this case. The second df equals the number of data points minus number of predictors minus 1 (something to do with the mean), in this case 10-1-1 = 8. 
+
+## 1c 
+
+Initially the relevant F-distribution is plotted using the abovementioned degrees of freedom. 
+Afterwards the cutoff-point is calculated using the quantile function. 
+
+
+## 1d
+
+```{r}
+ggplot(subject_308, aes(Days, Reaction)) +
+  geom_point() +
+  geom_smooth(method = lm)
+```
+
